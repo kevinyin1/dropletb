@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+ <div class="container-fluid">
+              <div id="nav">
+                      <div class="navbar-header">
+                          <a class="navbar-brand" href="/">DropletB</a>
+                      </div>
+                  <ul class="nav navbar-nav">
+                      <li class="active"><a href="/">Home</a></li>
+                      <li><a href="/nearby">Nearby</a></li>
+                      <li><a href="/logout">Logout</a></li>
+                  </ul>
+              </div>
+        </div>
+<!-- nav end -->
+
+    <div class="container-fluid" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-3 col-xs-12">
+                <div class="profile-info  {% if profile.profile_name != null %} hidden {% endif %}">
+                    <h3>It seems that you haven't edit your profile info yet! Click <a href="/profile/profile-info" style="text-decoration:underline;">here</a> to update</h3>
+                </div>
+                <div class="profile-info {% if profile.profile_name == null %} hidden {% endif %}">
+                    {% if profile.profile_img == null %}
+                        <img src="/images/blank_profile_img.png" class="center" style="margin-top:13px;height:150px;width:150px;" alt="profile image">
+                    {% endif %}
+                    <h2 style="color:#000;font-size:20px;text-align:center;">Welcome {{ profile.profile_name }}</h2>
+                    <h3 style="font-size:15px;text-decoration:underline;text-align:center;">Profile</h3>
+                    <h3 style="font-size:10px;" class="center">
+                        Age: {{ profile.age }}<br>
+                        Blood Type: {{ profile.blood_type }}<br>
+                        Address: {{ profile.address }}<br>
+                        Email Address: {{ profile.email }}<br>
+                        
+                    </h3>
+                    <h2 style="font-size:15px;text-align:center;color:black">Click <a style="text-decoration:underline;" href="/profile/profile-info">here</a> to update your profile</h2>
+                </div>
+            </div>
+            <div class="profile-info col-md-offset-1 col-md-6 col-xs-12">
+                <div class="event rounded">
+                 
+                        <h4>Upcoming Events</h4><br>
+                  <div>   
+                     
+                        {% for data in results %}
+                         
+                            <div class="col-md-12">
+                                <div style="margin:5px 5px;border:1px solid #d3d3d3;border-radius:3px;">
+                                    
+                                         
+                                    
+                                    <div class="col-md-8">
+                                        <div class="pull-left">
+                                            <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ data.address }}&size=200x200&zoom=15&markers=color:red|{{ data.address }}&key=AIzaSyDlAyTdcEkYmswMJs66gwC_q2WWiNBHn4c" style="width:100px;height:100px;float:left;margin-right:10px;margin-top:10px;">
+                                        </div>
+                                         <div>
+                                            <span style="font-weight:bold;color:#db1111;">Title:</span> {{ data.event_title }}<br>
+                                            <span style="font-weight:bold;color:#db1111;">Description:</span> {{ data.event_description }}<br>
+                                            <span style="font-weight:bold;color:#db1111;">Address:</span> {{ data.address }}<br>
+                                            <span style="font-weight:bold;color:#db1111;">Date:</span> {{ data.event_date }}<br>
+                                            <span style="font-weight:bold;color:#db1111;">Time:</span> {{ data.event_time }}<br>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <form action="/profile" method="post">
+                                            <input type="type" name="events-going" class="form-control" style="display:none;" value="{{ data.key.id }}"><br>
+                                            <input type="submit" class="btn btn-danger btn-block" value="Register">
+                                        </form>
+                                   </div>
+                                </div>
+                            </div>
+                          
+                        {% endfor %}
+                   </div>
+                 <br>
+                     
+                        <h4>Registered Events</h4>
+                 <div>
+                        {% if event != null %}
+                        <div class="col-md-12">
+                            <div style="margin:5px 10px;">
+                                <div class="col-md-8">
+                                    <div>
+                                        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ event.address }}&size=200x200&zoom=15&markers=color:red|{{ event.address }}&key=AIzaSyDlAyTdcEkYmswMJs66gwC_q2WWiNBHn4c" style="width:100px;height:100px;float:left;margin-right:10px;margin-top:10px;">
+                                    </div>
+                                     <div>
+                                        <span style="font-weight:bold;color:#db1111;">Title:</span> {{ event.event_title }}<br>
+                                        <span style="font-weight:bold;color:#db1111;">Description:</span> {{ event.event_description }}<br>
+                                        <span style="font-weight:bold;color:#db1111;">Address:</span> {{ event.address }}<br>
+                                        <span style="font-weight:bold;color:#db1111;">Date:</span> {{ event.event_date }}<br>
+                                        <span style="font-weight:bold;color:#db1111;">Time:</span> {{ event.event_time }}<br>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <form action="/profile" method="post">
+                                        <input type="type" name="events-going" class="form-control" style="display:none;" value="0000000000000000"><br>
+                                        <input type="submit" class="btn btn-danger btn-block" value="Unregister">
+                                    </form>
+                               </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                     </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!--
+    <div class="container-fluid">
+        <div class="row bgRed">
+           
+            <div class="col-sm-6 col-sm-offset-1  col-xs-6" >
+                <div name="EvNear" class="event rounded">
+                    <h4>Events</h4>
+                    {% for data in results %}
+                    <div class="col-md-12">
+                        <div style="margin:5px 10px;">
+                            <div class="col-md-6">
+                                <div>
+                                Event Title: {{ data.event_title }}<br>
+                                Event Description: {{ data.event_description }}<br>
+                                Event Address: {{ data.address }}<br>
+                                Event Date: {{ data.event_date }}<br>
+                                Event Time: {{ data.event_time }}<br>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <form action="/profile" method="going">
+                                    <button class="btn btn-outline-success btn-block" type="submit" style="margin-top:5px;" onclick="buttonC" name="going" value="{{ data.key }}">Register</button>
+                                </form>
+                           </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="col-xs-12 textcen" name="PstEv" class="event rounded" style="margin-top:10 px;">
+                    <h4>Past Events You Have Attended</h4>
+
+                </div>
+            </div>
+            <div class="col-sm-5 col-xs-6"></div>
+        </div>
+    </div>
+-->
+<!--     <script>
+      function buttonC(){
+         document.getElementById('register_button').setAttribute('class',"btn btn-success btn-block");
+      }
+       
+        function editProfile(){
+          document.getElementById('first-div').setAttribute("style","visibility:hidden");
+          document.getElementById('editbtn').setAttribute("style","display:none");
+
+        }
+    
+    </script> -->
+<script>
+console.log('{{ profile.key.id }}');
+</script>
+
+{% endblock %}

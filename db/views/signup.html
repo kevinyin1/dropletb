@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+ <div class="container-fluid">
+              <div id="nav">
+                      <div class="navbar-header">
+                          <a class="navbar-brand" href="/">DropletB</a>
+                      </div>
+                  <ul class="nav navbar-nav">
+                      <li class="active"><a href="/">Home</a></li>
+                      <li><a href="/nearby">Nearby</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="/signup"> Sign Up</a></li>
+                      <li><a href="/login">Profile</a></li>
+                  </ul>
+              </div>
+        </div>
+
+    <div class="col-md-4 col-md-offset-4"style="padding:0 75px">
+      <div class="signBX">
+            <div style="background-color:#dd231c;padding:15px;">
+                 <h1 style="text-align:center;margin:0">Register</h1>
+            </div>
+        <div style="padding:10px 50px 25px">
+             <form action="/signup" method="POST">
+
+                <label for="username">Username</label>
+                <input class="form-control" type="text" name="username" /><br>
+                <label for="email">Email address</label>
+                <input class="form-control" type="text" name="email" /><br>
+                <label for="password">Password</label>
+                <input class="form-control" id="password" type="password" name="password" /><br>
+
+                <input type="submit" value="Create Account" class="btn btn-default" />
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

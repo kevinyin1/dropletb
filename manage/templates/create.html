@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+ <div class="col-xs-12 col-md-8 eventContainer">
+        <br><br><br><br>
+        <h3 class="textcen">List of Events</h3>
+        <ul class="list-group">
+            {% for data in results %}
+                <li class="list-group-item">
+                    <div style="margin:5px 10px;">
+                        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ data.address }}&size=200x200&zoom=15&markers=color:red|{{ data.address }}
+                                  &key=AIzaSyDlAyTdcEkYmswMJs66gwC_q2WWiNBHn4c" style="width:100px;height:100px;float:left;margin-right:10px">
+                    <div>
+                            <span style="font-weight:bold;color:#db1111;">Title:</span> {{ data.event_title }}<br>
+                            <span style="font-weight:bold;color:#db1111;">Description:</span> {{ data.event_description }}<br>
+                            <span style="font-weight:bold;color:#db1111;">Address:</span> {{ data.address }}<br>
+                            <span style="font-weight:bold;color:#db1111;">Date:</span> {{ data.event_date }}<br>
+                            <span style="font-weight:bold;color:#db1111;">Time:</span> {{ data.event_time }}<br>
+                        </div>
+<!--                    <span class="badge">{{ data.event_attending }}</span> -->
+                    </div>
+                </li>
+            {% endfor %}
+         </ul>
+
+        <div class="eventCreater">
+            <h3 class="textcen">Create Event</h3>
+            <form class="form textcen" action= "/admin/create" method="POST">
+                <label>Event Title</label>
+                <input type="text" class="form-control" name="event-title"/>
+                <label>Event Descripton</label>
+                <input type="textbox" class="form-control" name="event-description"/>
+                <label>Event Address</label>
+                <input type="text" class="form-control" name="event-address"/>
+
+                <div class="col-sm-6" style="padding-left:0">
+                    <label>Event City</label>
+                    <input type="text" class="form-control" name="event-city"/>
+                </div>
+                <div class="col-sm-6" style="padding-right:0">
+                    <label>Event Zip Code</label>
+                    <input type="text" class="form-control" name="event-zip_code"/>
+                </div>
+
+                <label>Event Date</label>
+                    <input type="text" class="form-control" name="event-date"/>
+                <label>Event Time</label>
+                    <input type="text" class="form-control" name="event-time"/>
+                <input type="submit" class="btn btn-default" value="Create"/>
+            </form><br><br><br><br>
+        </div>
+    </div>
+
+{% endblock %}

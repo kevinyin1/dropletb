@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+    <div class="col-xs-12 col-md-8 eventContainer">
+        <h3 class="textcen">List of Users</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Address</th>
+                    <th>Blood Type</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.profile_name}}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.blood_type }}</td>
+                    <td>{{ user.age }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3 class="textcen">List of Events</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Event Description</th>
+                    <th>Event Address</th>
+                    <th>Event City</th>
+                    <th>Event Zip Code</th>
+                    <th>Event Date</th>
+                    <th>Event Time</th>
+                    <th>Attendees</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for event in results %}
+                <tr>
+                    <td>{{ event.event_title}}</td>
+                    <td>{{ event.event_description }}</td>
+                    <td>{{ event.address }}</td>
+                    <td>{{ event.city }}</td>
+                    <td>{{ event.zip_code }}</td>
+                    <td>{{ event.event_date }}</td>
+                    <td>{{ event.event_time }}</td>
+                    <td><a data-toggle="modal" id="trigger" data-target="#{{ event.key.id() }}">Attendees</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% for attendee in attendees %}
+        <div class="modal fade" id="{{ attendee[0] }}" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">List of Attendees</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Full Name</th>
+                            <th>Attendance Status</th>
+                        </thead>
+                        <tbody>
+                            {% for attendee_profile in attendee[1] %}
+                            <tr>
+                                <td>{{ attendee_profile.profile_name }}</td>
+                                <td>
+                                    {% if attendee_profile.events_going == attendee[0] %}
+                                        Attending
+                                    {% endif %}
+                                    {% if attendee_profile.events_going != attendee[0] %}
+                                        Not Attending
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+<script>
+console.log("{{ attendees }}");
+</script>
+{% endblock %}
